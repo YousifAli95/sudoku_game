@@ -1,21 +1,24 @@
 // SudokuGrid.js
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import {
   generateSudokuMatrix,
   isValid,
   updateBackgroundClasses,
 } from ".././Utils/sudokuUtils";
 
-const CELLS_PER_SUBGRID = 9;
-const SUBGRIDS_PER_AXIS = Math.floor(Math.sqrt(CELLS_PER_SUBGRID));
-
-export default function SudokuGrid() {
-  const [gridData, setGridData] = useState([]);
-  const inputRefs = useRef([]);
-
+export default function SudokuGrid({
+  gridData,
+  setGridData,
+  rawGridData,
+  setRawGridData,
+  inputRefs,
+  SUBGRIDS_PER_AXIS,
+  CELLS_PER_SUBGRID,
+}) {
   useEffect(() => {
     const initialData = generateSudokuMatrix(CELLS_PER_SUBGRID);
     setGridData(initialData);
+    setRawGridData(JSON.parse(JSON.stringify(initialData)));
   }, []);
 
   const handleInput = (rowIndex, colIndex, value) => {

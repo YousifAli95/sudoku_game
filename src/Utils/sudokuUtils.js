@@ -3,6 +3,10 @@ import {
   countNonEmptyValuesinMatrix,
 } from "./utilsHelperFunctions";
 
+const LIGHT_BLUE_CLASS = "light-blue-background";
+const SAME_NUMBER_CLASS = "same-number";
+const INVALID_CLASS = "invalid";
+
 // Checks if it is allowed to put a certain number in a certain spot in the sudoku matrix
 export function isValid(matrix, row, column, number, CELLS_PER_SUBGRID) {
   const SUBGRIDS_PER_AXIS = Math.floor(Math.sqrt(CELLS_PER_SUBGRID));
@@ -70,12 +74,10 @@ export function generateSudokuMatrix(CELLS_PER_SUBGRID) {
         const result = isValid(matrix, i, j, candidate, CELLS_PER_SUBGRID);
         if (result.isValid) {
           matrix[i][j] = candidate;
-
-          // // Work with a copy of the matrix instead of the matrix itself
+          // Work with a copy of the matrix instead of the matrix itself
           const copiedMatrix = JSON.parse(JSON.stringify(matrix));
-          if (sudokuSolver(copiedMatrix, CELLS_PER_SUBGRID)) {
-            break;
-          }
+          const [isSolved] = sudokuSolver(copiedMatrix, CELLS_PER_SUBGRID);
+          if (isSolved) break;
         }
 
         matrix[i][j] = null;
@@ -97,26 +99,30 @@ export function sudokuSolver(matrix, CELLS_PER_SUBGRID) {
         // Try numbers from 1 to CELLS_PER_SUBGRID
         for (let k = 1; k <= CELLS_PER_SUBGRID; k++) {
           // Check if placing k in the cell is valid
-          const result = isValid(matrix, i, j, k);
+          const result = isValid(matrix, i, j, k, CELLS_PER_SUBGRID);
           if (result.isValid) {
             // Place k in the cell
             matrix[i][j] = k;
 
             // Recursively attempt to solve the puzzle
-            if (sudokuSolver(matrix)) {
-              return true; // If successful, return true
+            const [isSolved, solvedMatrix] = sudokuSolver(
+              matrix,
+              CELLS_PER_SUBGRID
+            );
+            if (isSolved) {
+              return [true, solvedMatrix]; // If successful, return true and the solved matrix
             } else {
               matrix[i][j] = null; // If not successful, backtrack
             }
           }
         }
 
-        return false; // If no valid number can be placed, backtrack
+        return [false, null]; // If no valid number can be placed, backtrack
       }
     }
   }
 
-  return true; // If the entire puzzle is solved, return true
+  return [true, matrix]; // If the entire puzzle is solved, return true and the solved matrix
 }
 
 // Updates the background color of the inputboxes
@@ -129,10 +135,6 @@ export function updateBackgroundClasses(
   SUBGRIDS_PER_AXIS,
   errorCoordinates
 ) {
-  const LIGHT_BLUE_CLASS = "light-blue-background";
-  const SAME_NUMBER_CLASS = "same-number";
-  const INVALID_CLASS = "invalid";
-
   const inputBoxes = inputRefs.current;
   inputBoxes.forEach((_, rowIndex) => {
     inputBoxes[rowIndex].forEach((_, colIndex) => {
@@ -157,7 +159,9 @@ export function updateBackgroundClasses(
       SUBGRIDS_PER_AXIS * Math.floor(gridColumn / SUBGRIDS_PER_AXIS) +
       (i % SUBGRIDS_PER_AXIS);
 
+    // Sets the background color of the cells that are on in the same grid as the inputValue
     inputBoxes[m][n].classList.add(LIGHT_BLUE_CLASS);
+    // Sets the background color of the cells that are on the same row and column of the inputValue
     inputBoxes[i][gridColumn].classList.add(LIGHT_BLUE_CLASS);
     inputBoxes[gridRow][i].classList.add(LIGHT_BLUE_CLASS);
   }
@@ -166,4 +170,15 @@ export function updateBackgroundClasses(
       inputBoxes[element.row][element.column].classList.add(INVALID_CLASS);
     });
   }
+}
+
+// Function to reset the background colors of the sudoku grid cells
+export function resetBackgroundClasses(inputRefs) {
+  Array.from(inputRefs.current).forEach((row) => {
+    row.forEach((input) => {
+      input.classList.remove(LIGHT_BLUE_CLASS);
+      input.classList.remove(SAME_NUMBER_CLASS);
+      input.classList.remove(INVALID_CLASS);
+    });
+  });
 }
