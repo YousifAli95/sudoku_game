@@ -67,7 +67,7 @@ export function generateSudokuMatrix(CELLS_PER_SUBGRID) {
       shuffleArray(possibleValues);
       for (let index = 0; index < possibleValues.length; index++) {
         const candidate = possibleValues[index];
-        const result = isValid(matrix, i, j, candidate);
+        const result = isValid(matrix, i, j, candidate, CELLS_PER_SUBGRID);
         if (result.isValid) {
           matrix[i][j] = candidate;
 
