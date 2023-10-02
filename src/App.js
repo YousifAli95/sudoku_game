@@ -1,7 +1,10 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useEffect, useState, useRef } from "react";
-import { generateSudokuMatrix } from "./Utils/sudokuUtils";
+import {
+  generateSudokuMatrix,
+  updateBackgroundClasses,
+} from "./Utils/sudokuUtils";
 
 const CELLS_PER_SUBGRID = 9;
 const SUBGRIDS_PER_AXIS = Math.floor(Math.sqrt(CELLS_PER_SUBGRID));
@@ -16,8 +19,8 @@ function App() {
     setGridData(initialData);
   }, [CELLS_PER_SUBGRID]);
 
-  const handleInput = (row, col, value) => {
-    if (value.slice(-1) == "") return;
+  const handleInput = (rowIndex, colIndex, value) => {
+    inputRefs.current[rowIndex][colIndex].value = "";
 
     // Take only the last character if length is greater than 1
     if (value.length > 1) {
@@ -31,9 +34,16 @@ function App() {
     if (!disallowedCharacters.includes(value)) {
       // Update the grid data based on input changes
       const newData = [...gridData];
-      newData[row][col] = value;
+      newData[rowIndex][colIndex] = value;
       setGridData(newData);
-      console.log(gridData);
+      updateBackgroundClasses(
+        value,
+        rowIndex,
+        colIndex,
+        inputRefs,
+        CELLS_PER_SUBGRID,
+        SUBGRIDS_PER_AXIS
+      );
     }
   };
 
@@ -59,8 +69,17 @@ function App() {
     } else if (event.key === "ArrowRight") {
       newCol = Math.min(CELLS_PER_SUBGRID - 1, newCol + 1);
     }
+    const newInputBox = inputRefs.current[newRow][newCol];
+    newInputBox.focus();
 
-    inputRefs.current[newRow][newCol].focus();
+    updateBackgroundClasses(
+      newInputBox.value,
+      newRow,
+      newCol,
+      inputRefs,
+      CELLS_PER_SUBGRID,
+      SUBGRIDS_PER_AXIS
+    );
   };
 
   return (
@@ -81,6 +100,16 @@ function App() {
                 onInput={(e) => handleInput(rowIndex, colIndex, e.target.value)}
                 value={value !== null ? value : ""}
                 onKeyDown={(e) => handleArrowKey(e, rowIndex, colIndex)}
+                onFocus={(e) =>
+                  updateBackgroundClasses(
+                    e.target.value,
+                    rowIndex,
+                    colIndex,
+                    inputRefs,
+                    CELLS_PER_SUBGRID,
+                    SUBGRIDS_PER_AXIS
+                  )
+                }
                 ref={(input) => {
                   if (!inputRefs.current[rowIndex]) {
                     inputRefs.current[rowIndex] = [];

@@ -118,3 +118,46 @@ export function sudokuSolver(matrix, CELLS_PER_SUBGRID) {
 
   return true; // If the entire puzzle is solved, return true
 }
+
+// Updates the background color of the inputboxes
+export function updateBackgroundClasses(
+  inputValue,
+  gridRow,
+  gridColumn,
+  inputRefs,
+  CELLS_PER_SUBGRID,
+  SUBGRIDS_PER_AXIS
+) {
+  const LIGHT_BLUE_CLASS = "light-blue-background";
+  const SAME_NUMBER_CLASS = "same-number";
+  const INVALID_CLASS = "invalid";
+
+  const inputBoxes = inputRefs.current;
+  inputBoxes.forEach((_, rowIndex) => {
+    inputBoxes[rowIndex].forEach((_, colIndex) => {
+      // Remove non-default classes for the input box
+      const inputBox = inputBoxes[rowIndex][colIndex];
+      inputBox.classList.remove(LIGHT_BLUE_CLASS);
+      inputBox.classList.remove(INVALID_CLASS);
+
+      // Adds the SAME_NUMBER class to the inputs that have the value as the inputvalue
+      if (inputValue && inputBox.value == inputValue)
+        inputBox.classList.add(SAME_NUMBER_CLASS);
+      else inputBox.classList.remove(SAME_NUMBER_CLASS);
+    });
+  });
+
+  for (let i = 0; i < CELLS_PER_SUBGRID; i++) {
+    // Calculate the coordinates of the cell within the subgrid
+    const m =
+      SUBGRIDS_PER_AXIS * Math.floor(gridRow / SUBGRIDS_PER_AXIS) +
+      Math.floor(i / SUBGRIDS_PER_AXIS);
+    const n =
+      SUBGRIDS_PER_AXIS * Math.floor(gridColumn / SUBGRIDS_PER_AXIS) +
+      (i % SUBGRIDS_PER_AXIS);
+
+    inputBoxes[m][n].classList.add(LIGHT_BLUE_CLASS);
+    inputBoxes[i][gridColumn].classList.add(LIGHT_BLUE_CLASS);
+    inputBoxes[gridRow][i].classList.add(LIGHT_BLUE_CLASS);
+  }
+}
