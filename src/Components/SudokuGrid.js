@@ -6,6 +6,10 @@ import {
   updateBackgroundClasses,
 } from ".././Utils/sudokuUtils";
 
+const EDITED_SUDOKU_MATRIX_KEY = "editedSudokuMatrix";
+const ORIGINAL_SUDOKU_MATRIX_KEY = "originalSudokuMatrix";
+const TIME_RESULT_KEY = "timeResult";
+
 export default function SudokuGrid({
   gridData,
   setGridData,
@@ -15,11 +19,41 @@ export default function SudokuGrid({
   SUBGRIDS_PER_AXIS,
   CELLS_PER_SUBGRID,
 }) {
+  // Set the gridData by getting it from either local storage or generating a new sudoku grid
   useEffect(() => {
-    const initialData = generateSudokuMatrix(CELLS_PER_SUBGRID);
-    setGridData(initialData);
-    setRawGridData(JSON.parse(JSON.stringify(initialData)));
+    console.log("this code");
+    const rawGridDataJSON = localStorage.getItem(ORIGINAL_SUDOKU_MATRIX_KEY);
+    console.log(rawGridDataJSON);
+    if (rawGridDataJSON) {
+      console.log(rawGridDataJSON);
+
+      setRawGridData(JSON.parse(rawGridDataJSON));
+
+      const gridDataJSON = localStorage.getItem(EDITED_SUDOKU_MATRIX_KEY);
+      const gridData = gridDataJSON
+        ? JSON.parse(gridDataJSON)
+        : JSON.parse(rawGridDataJSON);
+
+      setGridData(gridData);
+    } else {
+      const initialData = generateSudokuMatrix(CELLS_PER_SUBGRID);
+      setGridData(initialData);
+      setRawGridData(JSON.parse(JSON.stringify(initialData)));
+    }
   }, []);
+
+  useEffect(() => {
+    if (gridData)
+      localStorage.setItem(EDITED_SUDOKU_MATRIX_KEY, JSON.stringify(gridData));
+  }, [gridData]);
+
+  useEffect(() => {
+    if (rawGridData)
+      localStorage.setItem(
+        ORIGINAL_SUDOKU_MATRIX_KEY,
+        JSON.stringify(rawGridData)
+      );
+  }, [rawGridData]);
 
   const handleInput = (rowIndex, colIndex, value) => {
     inputRefs.current[rowIndex][colIndex].value = "";
