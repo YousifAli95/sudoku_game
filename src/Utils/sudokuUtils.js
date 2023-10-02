@@ -126,7 +126,8 @@ export function updateBackgroundClasses(
   gridColumn,
   inputRefs,
   CELLS_PER_SUBGRID,
-  SUBGRIDS_PER_AXIS
+  SUBGRIDS_PER_AXIS,
+  errorCoordinates
 ) {
   const LIGHT_BLUE_CLASS = "light-blue-background";
   const SAME_NUMBER_CLASS = "same-number";
@@ -159,5 +160,10 @@ export function updateBackgroundClasses(
     inputBoxes[m][n].classList.add(LIGHT_BLUE_CLASS);
     inputBoxes[i][gridColumn].classList.add(LIGHT_BLUE_CLASS);
     inputBoxes[gridRow][i].classList.add(LIGHT_BLUE_CLASS);
+  }
+  if (errorCoordinates) {
+    errorCoordinates.forEach((element) => {
+      inputBoxes[element.row][element.column].classList.add(INVALID_CLASS);
+    });
   }
 }

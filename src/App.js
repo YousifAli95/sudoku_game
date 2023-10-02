@@ -3,6 +3,7 @@ import "./App.css";
 import { useEffect, useState, useRef } from "react";
 import {
   generateSudokuMatrix,
+  isValid,
   updateBackgroundClasses,
 } from "./Utils/sudokuUtils";
 
@@ -35,6 +36,13 @@ function App() {
       // Update the grid data based on input changes
       const newData = [...gridData];
       newData[rowIndex][colIndex] = value;
+      const { errorCoordinates } = isValid(
+        gridData,
+        rowIndex,
+        colIndex,
+        value,
+        CELLS_PER_SUBGRID
+      );
       setGridData(newData);
       updateBackgroundClasses(
         value,
@@ -42,7 +50,8 @@ function App() {
         colIndex,
         inputRefs,
         CELLS_PER_SUBGRID,
-        SUBGRIDS_PER_AXIS
+        SUBGRIDS_PER_AXIS,
+        errorCoordinates
       );
     }
   };
