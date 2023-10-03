@@ -11,6 +11,7 @@ import PauseOverlay from "./Components/PauseOverlay";
 const CELLS_PER_SUBGRID = 9;
 const SUBGRIDS_PER_AXIS = Math.floor(Math.sqrt(CELLS_PER_SUBGRID));
 const TIME_RESULT_KEY = "timeResult";
+const TIMER_KEY = "sudokuTimer";
 const HIDE_CLASS = "hide";
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
           HIDE_CLASS={HIDE_CLASS}
           timerPauseHandler={timerPauseHandler}
           setTimer={setTimer}
+          TIMER_KEY={TIMER_KEY}
         />
         <div id="pause-overlay-wrapper">
           <PauseOverlay
@@ -80,8 +82,11 @@ function App() {
           setGridData={setGridData}
           rawGridData={rawGridData}
           setRawGridData={setRawGridData}
+          timerPauseHandler={timerPauseHandler}
+          TIMER_KEY={TIMER_KEY}
           CELLS_PER_SUBGRID={CELLS_PER_SUBGRID}
           inputRefs={inputRefs}
+          timer={timer}
         />
       </main>
     </>

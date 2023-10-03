@@ -4,6 +4,7 @@ import {
   resetBackgroundClasses,
   sudokuSolver,
 } from "./../Utils/sudokuUtils";
+import { startTimer } from "../Utils/timerChartUtils";
 
 export default function ButtonContainer({
   CELLS_PER_SUBGRID,
@@ -11,8 +12,12 @@ export default function ButtonContainer({
   setGridData,
   setRawGridData,
   inputRefs,
+  setTimer,
+  timer,
+  TIMER_KEY,
 }) {
   const runSudokuSolver = () => {
+    clearInterval(timer.intervalId);
     const copyOfRawGridData = JSON.parse(JSON.stringify(rawGridData));
     if (sudokuSolver(copyOfRawGridData, CELLS_PER_SUBGRID)) {
       setGridData(JSON.parse(JSON.stringify(copyOfRawGridData)));
@@ -20,6 +25,7 @@ export default function ButtonContainer({
   };
 
   const newGame = () => {
+    restartTimer();
     const newGrid = generateSudokuMatrix(CELLS_PER_SUBGRID);
     setRawGridData(newGrid);
     setGridData(JSON.parse(JSON.stringify(newGrid)));
@@ -27,6 +33,7 @@ export default function ButtonContainer({
   };
 
   const restartGame = () => {
+    restartTimer();
     setGridData(JSON.parse(JSON.stringify(rawGridData)));
     resetBackgroundClasses(inputRefs);
   };
@@ -44,4 +51,11 @@ export default function ButtonContainer({
       </button>
     </div>
   );
+
+  function restartTimer() {
+    clearInterval(timer.intervalId);
+    localStorage.removeItem(TIMER_KEY);
+    setTimer((prevTimer) => ({ minutes: 0, seconds: 0, isPaused: false }));
+    startTimer(setTimer, TIMER_KEY);
+  }
 }
