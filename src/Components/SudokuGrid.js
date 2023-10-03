@@ -1,5 +1,5 @@
 // SudokuGrid.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   generateSudokuMatrix,
   isValid,
@@ -18,8 +18,12 @@ export default function SudokuGrid({
   inputRefs,
   SUBGRIDS_PER_AXIS,
   CELLS_PER_SUBGRID,
-  isPaused,
+  setOpenModals,
+  timer,
+  setTimeResultArray,
+  timeResultArray,
 }) {
+  const [isSudokuSolved, setIsSudokuSolved] = useState(false);
   // Set the gridData by getting it from either local storage or generating a new sudoku grid
   useEffect(() => {
     const rawGridDataJSON = localStorage.getItem(ORIGINAL_SUDOKU_MATRIX_KEY);
@@ -37,12 +41,29 @@ export default function SudokuGrid({
       setGridData(initialData);
       setRawGridData(JSON.parse(JSON.stringify(initialData)));
     }
+
+    const timeResultJSON = localStorage.getItem(TIME_RESULT_KEY);
+    if (timeResultJSON) setTimeResultArray(JSON.parse(timeResultJSON));
   }, []);
 
   useEffect(() => {
-    if (gridData && !isPaused)
+    if (gridData && !timer.isPaused)
       localStorage.setItem(EDITED_SUDOKU_MATRIX_KEY, JSON.stringify(gridData));
+    if (isSodukuSolved(gridData)) {
+      localStorage.removeItem(EDITED_SUDOKU_MATRIX_KEY);
+      localStorage.removeItem(ORIGINAL_SUDOKU_MATRIX_KEY);
+      setIsSudokuSolved(true);
+      setOpenModals((prevState) => ({ ...prevState, finishedModal: true }));
+      localStorage.setItem(TIME_RESULT_KEY, JSON.stringify(timeResultArray));
+      setTimeResultArray((prevState) => [...prevState, timer.minutes]);
+      console.log("solved");
+    }
   }, [gridData]);
+
+  useEffect(() => {
+    if (timeResultArray && timeResultArray.length > 0)
+      localStorage.setItem(TIME_RESULT_KEY, JSON.stringify(timeResultArray));
+  }, [timeResultArray]);
 
   useEffect(() => {
     if (rawGridData)
@@ -123,6 +144,29 @@ export default function SudokuGrid({
     );
   };
 
+  function isSodukuSolved(gridData) {
+    const gridDataCopy = JSON.parse(JSON.stringify(gridData));
+    if (gridDataCopy && gridDataCopy.length >= 1) {
+      for (let i = 0; i < CELLS_PER_SUBGRID; i++) {
+        for (let j = 0; j < CELLS_PER_SUBGRID; j++) {
+          // Save the current value
+          const value = gridDataCopy[i][j];
+          //If there is no value then sudoku is not solved
+          if (!value) return false;
+          // Temporarily sets this gridcell to null
+          gridDataCopy[i][j] = null;
+          // Check if it's allowed to put the current value where it is
+          const result = isValid(gridDataCopy, i, j, value);
+          // Put the value bakck
+          gridDataCopy[i][j] = value;
+          // if not valid then return false
+          if (!result.isValid) return false;
+        }
+      }
+      return true;
+    } else return false;
+  }
+
   return (
     <div id="sudoku-grid">
       {gridData.map((row, rowIndex) =>
@@ -136,7 +180,9 @@ export default function SudokuGrid({
             <input
               key={`${rowIndex}, ${colIndex}`}
               type="number"
-              readOnly={rawGridData[rowIndex][colIndex] ? true : false}
+              readOnly={
+                rawGridData[rowIndex][colIndex] || isSudokuSolved ? true : false
+              }
               className={`input-box ${rowClass}`}
               onInput={(e) => handleInput(rowIndex, colIndex, e.target.value)}
               value={value !== null ? value : ""}

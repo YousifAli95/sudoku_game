@@ -211,9 +211,7 @@ main {
 
 #finished-modal {
   max-width: 60rem;
-  max-height: 80rem;
   width: 80%;
-  height: 80%;
   position: relative;
   padding: 0;
   text-align: center;
@@ -242,6 +240,7 @@ dialog::backdrop {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: -1;
 }
 
 #finished-h1 {

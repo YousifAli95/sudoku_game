@@ -38,6 +38,13 @@ export default function ButtonContainer({
     resetBackgroundClasses(inputRefs);
   };
 
+  function restartTimer() {
+    clearInterval(timer.intervalId);
+    localStorage.removeItem(TIMER_KEY);
+    setTimer((prevTimer) => ({ minutes: 0, seconds: 0, isPaused: false }));
+    startTimer(setTimer, TIMER_KEY);
+  }
+
   return (
     <div id="button-container">
       <button onClick={runSudokuSolver} id="solve-btn">
@@ -51,11 +58,4 @@ export default function ButtonContainer({
       </button>
     </div>
   );
-
-  function restartTimer() {
-    clearInterval(timer.intervalId);
-    localStorage.removeItem(TIMER_KEY);
-    setTimer((prevTimer) => ({ minutes: 0, seconds: 0, isPaused: false }));
-    startTimer(setTimer, TIMER_KEY);
-  }
 }

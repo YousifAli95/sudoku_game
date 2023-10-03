@@ -7,14 +7,16 @@ import ButtonContainer from "./Components/ButtonContainer";
 import { resetBackgroundClasses } from "./Utils/sudokuUtils";
 import TimerElement from "./Components/TimerElement";
 import PauseOverlay from "./Components/PauseOverlay";
+import FinishedModal from "./Components/FinishedModal";
 
 const CELLS_PER_SUBGRID = 9;
 const SUBGRIDS_PER_AXIS = Math.floor(Math.sqrt(CELLS_PER_SUBGRID));
-const TIME_RESULT_KEY = "timeResult";
 const TIMER_KEY = "sudokuTimer";
 const HIDE_CLASS = "hide";
 
 function App() {
+  const [timeResultArray, setTimeResultArray] = useState([]);
+  const [openModals, setOpenModals] = useState({ finishedModal: false });
   const [gridData, setGridData] = useState([]);
   const [rawGridData, setRawGridData] = useState([]);
   const [copyOfGridData, setCopyOfGridData] = useState([]);
@@ -53,6 +55,11 @@ function App() {
         <a href="/">Yousifs Sudoku Game</a>
       </header>
       <main>
+        <FinishedModal
+          openModals={openModals}
+          setOpenModals={setOpenModals}
+          timeResultArray={timeResultArray}
+        />
         <TimerElement
           timer={timer}
           HIDE_CLASS={HIDE_CLASS}
@@ -74,7 +81,10 @@ function App() {
             inputRefs={inputRefs}
             CELLS_PER_SUBGRID={CELLS_PER_SUBGRID}
             SUBGRIDS_PER_AXIS={SUBGRIDS_PER_AXIS}
-            isPaused={timer.isPaused}
+            setOpenModals={setOpenModals}
+            timer={timer}
+            setTimeResultArray={setTimeResultArray}
+            timeResultArray={timeResultArray}
           />
         </div>
         <ButtonContainer
@@ -87,6 +97,7 @@ function App() {
           CELLS_PER_SUBGRID={CELLS_PER_SUBGRID}
           inputRefs={inputRefs}
           timer={timer}
+          setOpenModals={setOpenModals}
         />
       </main>
     </>
