@@ -136,6 +136,7 @@ export default function SudokuGrid({
             <input
               key={`${rowIndex}, ${colIndex}`}
               type="number"
+              readOnly={rawGridData[rowIndex][colIndex] ? true : false}
               className={`input-box ${rowClass}`}
               onInput={(e) => handleInput(rowIndex, colIndex, e.target.value)}
               value={value !== null ? value : ""}
