@@ -18,15 +18,12 @@ export default function SudokuGrid({
   inputRefs,
   SUBGRIDS_PER_AXIS,
   CELLS_PER_SUBGRID,
+  isPaused,
 }) {
   // Set the gridData by getting it from either local storage or generating a new sudoku grid
   useEffect(() => {
-    console.log("this code");
     const rawGridDataJSON = localStorage.getItem(ORIGINAL_SUDOKU_MATRIX_KEY);
-    console.log(rawGridDataJSON);
     if (rawGridDataJSON) {
-      console.log(rawGridDataJSON);
-
       setRawGridData(JSON.parse(rawGridDataJSON));
 
       const gridDataJSON = localStorage.getItem(EDITED_SUDOKU_MATRIX_KEY);
@@ -43,7 +40,7 @@ export default function SudokuGrid({
   }, []);
 
   useEffect(() => {
-    if (gridData)
+    if (gridData && !isPaused)
       localStorage.setItem(EDITED_SUDOKU_MATRIX_KEY, JSON.stringify(gridData));
   }, [gridData]);
 
