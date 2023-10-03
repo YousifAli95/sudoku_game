@@ -14,13 +14,13 @@ export function isValid(matrix, row, column, number, CELLS_PER_SUBGRID) {
   const errorCoordinates = [];
   for (let i = 0; i < CELLS_PER_SUBGRID; i++) {
     // Check for the same value in the row
-    if (matrix[row][i] == number) {
+    if (matrix[row][i] && matrix[row][i] == number) {
       isValid = false;
       errorCoordinates.push({ row: row, column: i });
     }
 
     // Check for the same value in the column
-    if (matrix[i][column] == number) {
+    if (matrix[i][column] && matrix[i][column] == number) {
       isValid = false;
       errorCoordinates.push({ row: i, column: column });
     }
@@ -34,7 +34,7 @@ export function isValid(matrix, row, column, number, CELLS_PER_SUBGRID) {
       (i % SUBGRIDS_PER_AXIS);
 
     // Check for the same value in the subgrid
-    if (matrix[m][n] == number) {
+    if (matrix[m][n] && matrix[m][n] == number) {
       isValid = false;
       errorCoordinates.push({ row: m, column: n });
     }
