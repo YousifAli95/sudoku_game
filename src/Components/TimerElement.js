@@ -5,7 +5,7 @@ const TIMER_KEY = "sudokuTimer";
 export default function TimerElement({
   timer,
   setTimer,
-  pauseAndUnpauseTimer,
+  timerPauseHandler,
   HIDE_CLASS,
 }) {
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function TimerElement({
   return (
     <div className="above-grid-container">
       <div
-        onClick={pauseAndUnpauseTimer}
+        onClick={timerPauseHandler}
         id="timer-wrapper"
         className="timer-wrapper"
       >

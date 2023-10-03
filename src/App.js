@@ -6,6 +6,7 @@ import { useState, useRef } from "react";
 import ButtonContainer from "./Components/ButtonContainer";
 import { resetBackgroundClasses } from "./Utils/sudokuUtils";
 import TimerElement from "./Components/TimerElement";
+import PauseOverlay from "./Components/PauseOverlay";
 
 const CELLS_PER_SUBGRID = 9;
 const SUBGRIDS_PER_AXIS = Math.floor(Math.sqrt(CELLS_PER_SUBGRID));
@@ -24,7 +25,7 @@ function App() {
     isPaused: false,
   });
 
-  const pauseAndUnpauseTimer = () => {
+  const timerPauseHandler = () => {
     if (!timer.isPaused) {
       // Hides all grid values if the timer will be paused
       const emptyGrid = Array.from({ length: CELLS_PER_SUBGRID }, () =>
@@ -54,31 +55,15 @@ function App() {
         <TimerElement
           timer={timer}
           HIDE_CLASS={HIDE_CLASS}
-          pauseAndUnpauseTimer={pauseAndUnpauseTimer}
+          timerPauseHandler={timerPauseHandler}
           setTimer={setTimer}
         />
         <div id="pause-overlay-wrapper">
-          <div
-            onClick={pauseAndUnpauseTimer}
-            id="pause-overlay"
-            className={`pause-overlay ${timer.isPaused ? "" : HIDE_CLASS}`}
-          >
-            <div id="pause-svg-wrapper">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon-play-big"
-                viewBox="0 0 60 60"
-              >
-                <g fill="none" fillRule="evenodd">
-                  <circle cx="30" cy="30" r="30" fill="#0072E3"></circle>
-                  <path
-                    fill="#FFF"
-                    d="M39.12 31.98l-12.56 8.64a2.4 2.4 0 01-3.76-1.98V21.36a2.4 2.4 0 013.76-1.97l12.56 8.63a2.4 2.4 0 010 3.96z"
-                  ></path>
-                </g>
-              </svg>
-            </div>
-          </div>
+          <PauseOverlay
+            HIDE_CLASS={HIDE_CLASS}
+            timer={timer}
+            timerPauseHandler={timerPauseHandler}
+          />
           <SudokuGrid
             gridData={gridData}
             setGridData={setGridData}
