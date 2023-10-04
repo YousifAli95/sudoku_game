@@ -19,6 +19,12 @@ export default function FinishedModal({ timeResultArray }) {
   useEffect(() => {
     if (openModals.finishedModal) {
       dialogRef.current?.showModal();
+      const counts = getTimeResultCountDictionary(timeResultArray);
+
+      const data = getChartDataObject(counts);
+
+      configureTimeChart(setChart, timeChartRef, data);
+
       const confetti = configureConfetti(dialogRef, confettiRef);
       confetti.render();
 
@@ -26,12 +32,6 @@ export default function FinishedModal({ timeResultArray }) {
       setTimeout(function () {
         confetti.clear();
       }, 4000); // 4000 milliseconds = 4 seconds
-
-      const counts = getTimeResultCountDictionary(timeResultArray);
-
-      const data = getChartDataObject(counts);
-
-      configureTimeChart(setChart, timeChartRef, data);
     } else {
       chart?.destroy();
       dialogRef.current?.close();
