@@ -82,6 +82,7 @@ export function configureConfetti(dialogRef, confettiRef) {
     rotate: true,
     width: parentWidth,
     height: parentHeight,
+    clock: 10,
     max: 100,
   };
 
