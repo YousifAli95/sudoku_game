@@ -108,16 +108,17 @@ export default function SudokuGrid({
     // Check if the entered character is allowed
     if (!disallowedCharacters.includes(value)) {
       // Update the grid data based on input changes
-      const newData = [...gridData];
-      newData[rowIndex][colIndex] = value;
+      const tmpGridData = JSON.parse(JSON.stringify(gridData));
+      tmpGridData[rowIndex][colIndex] = null;
       const { errorCoordinates } = isValid(
-        gridData,
+        tmpGridData,
         rowIndex,
         colIndex,
         value,
         CELLS_PER_SUBGRID
       );
-      setGridData(newData);
+      tmpGridData[rowIndex][colIndex] = value;
+      setGridData(tmpGridData);
       updateBackgroundClasses(
         value,
         rowIndex,
@@ -138,7 +139,9 @@ export default function SudokuGrid({
       "ArrowRight",
     ];
 
-    if (handledArrowKeys.includes(event.key)) event.preventDefault();
+    if (!handledArrowKeys.includes(event.key)) return;
+
+    event.preventDefault();
 
     let newRow = rowIndex;
     let newCol = colIndex;
