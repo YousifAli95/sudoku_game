@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { startTimer } from "../Utils/timerChartUtils";
 
+import "./CSS/timerElement.css";
+
 export default function TimerElement({
   timer,
   setTimer,

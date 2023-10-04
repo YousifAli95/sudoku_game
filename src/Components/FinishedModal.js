@@ -6,6 +6,8 @@ import {
   getChartDataObject,
 } from "../Utils/timerChartUtils";
 
+import "./CSS/finishedModal.css";
+
 export default function FinishedModal({
   openModals,
   setOpenModals,
@@ -47,7 +49,7 @@ export default function FinishedModal({
   };
 
   return (
-    <dialog ref={dialogRef} id="finished-modal">
+    <dialog ref={dialogRef} className="modal">
       <div className="modal-close-btn-wrapper">
         <button className="modal-close-btn" onClick={closeModal}>
           x

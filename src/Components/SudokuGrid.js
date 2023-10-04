@@ -1,10 +1,12 @@
 // SudokuGrid.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   generateSudokuMatrix,
   isValid,
   updateBackgroundClasses,
 } from ".././Utils/sudokuUtils";
+
+import "./CSS/sudokuGrid.css";
 
 const EDITED_SUDOKU_MATRIX_KEY = "editedSudokuMatrix";
 const ORIGINAL_SUDOKU_MATRIX_KEY = "originalSudokuMatrix";

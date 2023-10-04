@@ -1,3 +1,5 @@
+import "./CSS/pauseOverlay.css";
+
 export default function PauseOverlay({ timer, HIDE_CLASS, timerPauseHandler }) {
   return (
     <div

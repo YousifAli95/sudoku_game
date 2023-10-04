@@ -1,0 +1,44 @@
+.timer-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    margin-left: auto;
+}
+
+.timer {
+    color: #94a3b7;
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: .8;
+}
+
+.icon-pause,
+.icon-play {
+    width: 1.1rem;
+    height: 1.1rem;
+    background-image: url(https://sudoku.com/build/images/game.00bbac29.png);
+    background-position: 47.3451% 94.9748%;
+    background-size: 784.8484% 703.0303%;
+}
+
+.icon-play {
+    background-position: 62.3893% 94.9748%;
+}
+
+.timer-pause {
+    display: flex;
+    width: 25px;
+    height: 25px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 0 10px;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    background: #eaeef4;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}

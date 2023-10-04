@@ -6,6 +6,8 @@ import {
 } from "./../Utils/sudokuUtils";
 import { startTimer } from "../Utils/timerChartUtils";
 
+import "./CSS/buttonContainer.css";
+
 export default function ButtonContainer({
   CELLS_PER_SUBGRID,
   rawGridData,

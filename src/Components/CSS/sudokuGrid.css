@@ -1,0 +1,85 @@
+#sudoku-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cells-per-subgrid), 1fr);
+    grid-template-rows: repeat(var(--cells-per-subgrid), 1fr);
+    grid-gap: 0;
+}
+
+#sudoku-grid {
+    width: fit-content;
+    border: 0.3rem solid black;
+}
+
+.input-box {
+    box-sizing: border-box;
+    width: var(--input-box-size);
+    height: var(--input-box-size);
+    outline: 1px solid rgba(0, 63, 123, .3);
+    border: none;
+    font-size: 3rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Add an outline to every third input box */
+.input-box:nth-child(3n +1) {
+    border-left: 0.1rem solid black;
+}
+
+.input-box:nth-child(3n) {
+    border-right: 0.1rem solid black;
+}
+
+.subgrid-first-row {
+    border-top: 0.1rem solid black;
+}
+
+.subgrid-last-row {
+    border-bottom: 0.1rem solid black;
+}
+
+.input-box:focus-visible {
+    border: 0.1rem solid black;
+    background-color: var(--input-focus-blue)
+}
+
+.light-blue-background {
+    background-color: var(--same-subgrid-row-column-blue)
+}
+
+.same-number {
+    background-color: var(--same-number-blue)
+}
+
+.invalid {
+    background-color: var(--invalid-input-red);
+}
+
+.no-edit {
+    cursor: default;
+    font-weight: 600;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+@media screen and (max-width: 560px) {
+    .input-box {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .input-box {
+        font-size: 1.5rem;
+    }
+}

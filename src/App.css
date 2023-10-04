@@ -2,7 +2,7 @@
 
 :root {
   font-size: 62.5%;
-  --input-box-size: 6rem;
+  --input-box-size: 5.5rem;
   --cells-per-subgrid: 9;
   --subgrid-count-per-axis: 3;
   --same-number-blue: steelblue;
@@ -25,11 +25,6 @@ button {
   cursor: pointer;
 }
 
-.no-edit {
-  cursor: default;
-  font-weight: 600;
-}
-
 header {
   font-size: 2.6rem;
   font-family: "Source Sans Pro", sans-serif;
@@ -47,168 +42,20 @@ a {
 }
 
 main {
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 
-#sudoku-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--cells-per-subgrid), 1fr);
-  grid-template-rows: repeat(var(--cells-per-subgrid), 1fr);
-  grid-gap: 0;
-}
-
-#sudoku-grid {
-  width: fit-content;
-  border: 0.3rem solid black;
-}
-
-.input-box {
-  box-sizing: border-box;
-  width: var(--input-box-size);
-  height: var(--input-box-size);
-  outline: 1px solid rgba(0, 63, 123, .3);
-  border: none;
-  font-size: 3rem;
-  text-align: center;
-  overflow: hidden;
-}
-
-/* Add an outline to every third input box */
-.input-box:nth-child(3n +1) {
-  border-left: 0.1rem solid black;
-}
-
-.input-box:nth-child(3n) {
-  border-right: 0.1rem solid black;
-}
-
-.subgrid-first-row {
-  border-top: 0.1rem solid black;
-}
-
-.subgrid-last-row {
-  border-bottom: 0.1rem solid black;
-}
-
-.input-box:focus-visible {
-  border: 0.1rem solid black;
-  background-color: var(--input-focus-blue)
-}
-
-.light-blue-background {
-  background-color: var(--same-subgrid-row-column-blue)
-}
-
-.same-number {
-  background-color: var(--same-number-blue)
-}
-
-.invalid {
-  background-color: var(--invalid-input-red);
-}
-
-#button-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 3rem;
-}
-
-#button-container button {
-  width: 16rem;
-  border-radius: 0.5rem;
-  border: none;
-  background-color: var(--same-number-blue);
-  color: white;
-  min-height: 4rem;
-  font-size: 2rem;
-  font-family: Arial, Helvetica, sans-serif;
-  border-bottom: 0.4rem solid black;
-  padding: 1rem 1.2rem;
-  box-sizing: border-box;
-}
-
-#button-container button:hover {
-  filter: grayscale(0.8);
-}
-
-#button-container button:active {
-  box-shadow: 0 4px black;
-  -webkit-transform: translateY(0.2rem);
-  transform: translateY(0.2rem);
-}
 
 .above-grid-container {
   margin: 10px 0;
   display: flex;
 }
 
-.timer-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0;
-  margin-left: auto;
-}
-
-.timer {
-  color: #94a3b7;
-  font-size: 1.6rem;
-  font-weight: 600;
-  line-height: .8;
-}
-
-.icon-pause,
-.icon-play {
-  width: 1.1rem;
-  height: 1.1rem;
-  background-image: url(https://sudoku.com/build/images/game.00bbac29.png);
-  background-position: 47.3451% 94.9748%;
-  background-size: 784.8484% 703.0303%;
-}
-
-.icon-play {
-  background-position: 62.3893% 94.9748%;
-}
-
-.timer-pause {
-  display: flex;
-  width: 25px;
-  height: 25px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin: 0 0 0 10px;
-  padding: 0;
-  cursor: pointer;
-  border-radius: 50%;
-  border: none;
-  background: #eaeef4;
-  outline: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
 .hide {
   display: none;
 }
 
-.pause-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-  cursor: pointer;
-  z-index: 10;
-}
-
-#pause-overlay-wrapper {
-  position: relative;
-}
-
-#finished-modal {
+.modal {
   max-width: 60rem;
   width: 80%;
   position: relative;
@@ -235,70 +82,14 @@ dialog::backdrop {
   background-color: rgb(0, 0, 0, 0.5);
 }
 
-#confetti-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
-#finished-h1 {
-  text-align: center;
-  margin-top: 5px;
-  padding: 0 10px;
-}
-
-#pause-svg-wrapper {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-#pause-svg-wrapper svg {
-  width: 60px;
-  height: 60px;
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
 @media screen and (max-width: 560px) {
   :root {
     --input-box-size: 4.5rem;
-  }
-
-  .input-box {
-    font-size: 2rem;
-  }
-
-  #button-container button {
-    width: 12rem;
-    font-size: 1.3rem;
   }
 }
 
 @media screen and (max-width: 430px) {
   :root {
     --input-box-size: 3.5rem;
-  }
-
-  .input-box {
-    font-size: 1.5rem;
-  }
-
-  #button-container button {
-    width: 9.5rem;
-    font-size: 1rem;
   }
 }

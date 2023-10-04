@@ -1,0 +1,12 @@
+#confetti-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+#finished-h1 {
+    text-align: center;
+    margin-top: 5px;
+    padding: 0 10px;
+}
