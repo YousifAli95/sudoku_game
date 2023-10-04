@@ -15,6 +15,7 @@ const TIMER_KEY = "sudokuTimer";
 const HIDE_CLASS = "hide";
 
 function App() {
+  const [isSudokuSolved, setIsSudokuSolved] = useState(false);
   const [timeResultArray, setTimeResultArray] = useState([]);
   const [openModals, setOpenModals] = useState({ finishedModal: false });
   const [gridData, setGridData] = useState([]);
@@ -85,6 +86,9 @@ function App() {
             timer={timer}
             setTimeResultArray={setTimeResultArray}
             timeResultArray={timeResultArray}
+            TIMER_KEY={TIMER_KEY}
+            isSudokuSolved={isSudokuSolved}
+            setIsSudokuSolved={setIsSudokuSolved}
           />
         </div>
         <ButtonContainer
@@ -98,6 +102,8 @@ function App() {
           inputRefs={inputRefs}
           timer={timer}
           setOpenModals={setOpenModals}
+          isSudokuSolved={isSudokuSolved}
+          setIsSudokuSolved={setIsSudokuSolved}
         />
       </main>
     </>

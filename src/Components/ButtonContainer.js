@@ -15,8 +15,13 @@ export default function ButtonContainer({
   setTimer,
   timer,
   TIMER_KEY,
+  setIsSudokuSolved,
+  isSudokuSolved,
+  setOpenModals,
 }) {
   const runSudokuSolver = () => {
+    if (isSudokuSolved)
+      setOpenModals((prevstate) => ({ ...prevstate, finishedModal: true }));
     clearInterval(timer.intervalId);
     const copyOfRawGridData = JSON.parse(JSON.stringify(rawGridData));
     if (sudokuSolver(copyOfRawGridData, CELLS_PER_SUBGRID)) {
@@ -26,6 +31,7 @@ export default function ButtonContainer({
 
   const newGame = () => {
     restartTimer();
+    setIsSudokuSolved(false);
     const newGrid = generateSudokuMatrix(CELLS_PER_SUBGRID);
     setRawGridData(newGrid);
     setGridData(JSON.parse(JSON.stringify(newGrid)));
@@ -34,6 +40,7 @@ export default function ButtonContainer({
 
   const restartGame = () => {
     restartTimer();
+    setIsSudokuSolved(false);
     setGridData(JSON.parse(JSON.stringify(rawGridData)));
     resetBackgroundClasses(inputRefs);
   };
@@ -48,7 +55,7 @@ export default function ButtonContainer({
   return (
     <div id="button-container">
       <button onClick={runSudokuSolver} id="solve-btn">
-        Solve Sudoku
+        {isSudokuSolved ? "See scoreboard" : "Solve with AI"}
       </button>
       <button onClick={newGame} id="new-game-btn">
         New Game

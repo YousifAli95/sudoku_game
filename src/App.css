@@ -9,7 +9,6 @@
   --same-subgrid-row-column-blue: rgb(172, 218, 247);
   --input-focus-blue: rgb(88, 186, 247);
   --invalid-input-red: rgb(165, 79, 79);
-
 }
 
 #root,
@@ -126,7 +125,7 @@ main {
   font-size: 2rem;
   font-family: Arial, Helvetica, sans-serif;
   border-bottom: 0.4rem solid black;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.2rem;
   box-sizing: border-box;
 }
 

@@ -22,8 +22,10 @@ export default function SudokuGrid({
   timer,
   setTimeResultArray,
   timeResultArray,
+  TIMER_KEY,
+  setIsSudokuSolved,
+  isSudokuSolved,
 }) {
-  const [isSudokuSolved, setIsSudokuSolved] = useState(false);
   // Set the gridData by getting it from either local storage or generating a new sudoku grid
   useEffect(() => {
     const rawGridDataJSON = localStorage.getItem(ORIGINAL_SUDOKU_MATRIX_KEY);
@@ -48,20 +50,33 @@ export default function SudokuGrid({
 
   useEffect(() => {
     if (gridData && !timer.isPaused)
+      // If timer is not pause, save current sudoku progress in local storage
       localStorage.setItem(EDITED_SUDOKU_MATRIX_KEY, JSON.stringify(gridData));
-    if (isSodukuSolved(gridData)) {
+
+    // If sudoku is already solved, don't do anything
+    if (isSudokuSolved) return;
+
+    if (checkIfSudokuIsSolved(gridData)) {
+      // If sudoku is solved, remove all stored matrices and timer
       localStorage.removeItem(EDITED_SUDOKU_MATRIX_KEY);
       localStorage.removeItem(ORIGINAL_SUDOKU_MATRIX_KEY);
+      localStorage.removeItem(TIMER_KEY);
+
       setIsSudokuSolved(true);
+
+      // Open finished modal when sudoku puzzle is solved
       setOpenModals((prevState) => ({ ...prevState, finishedModal: true }));
-      localStorage.setItem(TIME_RESULT_KEY, JSON.stringify(timeResultArray));
+
+      // Adds this time result in the time result array
       setTimeResultArray((prevState) => [...prevState, timer.minutes]);
+
       console.log("solved");
     }
   }, [gridData]);
 
   useEffect(() => {
     if (timeResultArray && timeResultArray.length > 0)
+      // Save the array of all the time results in the local storage
       localStorage.setItem(TIME_RESULT_KEY, JSON.stringify(timeResultArray));
   }, [timeResultArray]);
 
@@ -144,7 +159,7 @@ export default function SudokuGrid({
     );
   };
 
-  function isSodukuSolved(gridData) {
+  function checkIfSudokuIsSolved(gridData) {
     const gridDataCopy = JSON.parse(JSON.stringify(gridData));
     if (gridDataCopy && gridDataCopy.length >= 1) {
       for (let i = 0; i < CELLS_PER_SUBGRID; i++) {
