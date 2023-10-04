@@ -1,33 +1,29 @@
 // App.js
-import React, { useEffect } from "react";
+import Reac, { useState } from "react";
 import "./App.css";
 import SudokuGrid from "./Components/SudokuGrid";
-import { useState, useRef } from "react";
 import ButtonContainer from "./Components/ButtonContainer";
 import { resetBackgroundClasses } from "./Utils/sudokuUtils";
 import TimerElement from "./Components/TimerElement";
 import PauseOverlay from "./Components/PauseOverlay";
 import FinishedModal from "./Components/FinishedModal";
+import { useSudokuContext } from "./SudokuContext";
 
 const CELLS_PER_SUBGRID = 9;
 const SUBGRIDS_PER_AXIS = Math.floor(Math.sqrt(CELLS_PER_SUBGRID));
-const TIMER_KEY = "sudokuTimer";
-const HIDE_CLASS = "hide";
 
-function App() {
-  const [isSudokuSolved, setIsSudokuSolved] = useState(false);
+export default function App() {
   const [timeResultArray, setTimeResultArray] = useState([]);
-  const [openModals, setOpenModals] = useState({ finishedModal: false });
-  const [gridData, setGridData] = useState([]);
-  const [rawGridData, setRawGridData] = useState([]);
-  const [copyOfGridData, setCopyOfGridData] = useState([]);
-  const inputRefs = useRef([]);
-  const [timer, setTimer] = useState({
-    minutes: 0,
-    seconds: 0,
-    intervalId: null,
-    isPaused: false,
-  });
+
+  const {
+    timer,
+    setTimer,
+    inputRefs,
+    gridData,
+    setGridData,
+    copyOfGridData,
+    setCopyOfGridData,
+  } = useSudokuContext();
 
   const timerPauseHandler = () => {
     if (!timer.isPaused) {
@@ -56,58 +52,19 @@ function App() {
         <a href="/">Yousifs Sudoku Game</a>
       </header>
       <main>
-        <FinishedModal
-          openModals={openModals}
-          setOpenModals={setOpenModals}
-          timeResultArray={timeResultArray}
-        />
-        <TimerElement
-          timer={timer}
-          HIDE_CLASS={HIDE_CLASS}
-          timerPauseHandler={timerPauseHandler}
-          setTimer={setTimer}
-          TIMER_KEY={TIMER_KEY}
-        />
+        <FinishedModal timeResultArray={timeResultArray} />
+        <TimerElement timerPauseHandler={timerPauseHandler} />
         <div id="pause-overlay-wrapper">
-          <PauseOverlay
-            HIDE_CLASS={HIDE_CLASS}
-            timer={timer}
-            timerPauseHandler={timerPauseHandler}
-          />
+          <PauseOverlay timerPauseHandler={timerPauseHandler} />
           <SudokuGrid
-            gridData={gridData}
-            setGridData={setGridData}
-            rawGridData={rawGridData}
-            setRawGridData={setRawGridData}
-            inputRefs={inputRefs}
             CELLS_PER_SUBGRID={CELLS_PER_SUBGRID}
             SUBGRIDS_PER_AXIS={SUBGRIDS_PER_AXIS}
-            setOpenModals={setOpenModals}
-            timer={timer}
             setTimeResultArray={setTimeResultArray}
             timeResultArray={timeResultArray}
-            TIMER_KEY={TIMER_KEY}
-            isSudokuSolved={isSudokuSolved}
-            setIsSudokuSolved={setIsSudokuSolved}
           />
         </div>
-        <ButtonContainer
-          setTimer={setTimer}
-          setGridData={setGridData}
-          rawGridData={rawGridData}
-          setRawGridData={setRawGridData}
-          timerPauseHandler={timerPauseHandler}
-          TIMER_KEY={TIMER_KEY}
-          CELLS_PER_SUBGRID={CELLS_PER_SUBGRID}
-          inputRefs={inputRefs}
-          timer={timer}
-          setOpenModals={setOpenModals}
-          isSudokuSolved={isSudokuSolved}
-          setIsSudokuSolved={setIsSudokuSolved}
-        />
+        <ButtonContainer CELLS_PER_SUBGRID={CELLS_PER_SUBGRID} />
       </main>
     </>
   );
 }
-
-export default App;

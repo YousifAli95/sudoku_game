@@ -7,20 +7,22 @@ import {
 import { startTimer } from "../Utils/timerChartUtils";
 
 import "./CSS/buttonContainer.css";
+import { useSudokuContext } from "../SudokuContext";
 
-export default function ButtonContainer({
-  CELLS_PER_SUBGRID,
-  rawGridData,
-  setGridData,
-  setRawGridData,
-  inputRefs,
-  setTimer,
-  timer,
-  TIMER_KEY,
-  setIsSudokuSolved,
-  isSudokuSolved,
-  setOpenModals,
-}) {
+export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
+  const {
+    rawGridData,
+    setGridData,
+    setRawGridData,
+    inputRefs,
+    setTimer,
+    timer,
+    TIMER_KEY,
+    setIsSudokuSolved,
+    isSudokuSolved,
+    setOpenModals,
+  } = useSudokuContext();
+
   const runSudokuSolver = () => {
     if (isSudokuSolved)
       setOpenModals((prevstate) => ({ ...prevstate, finishedModal: true }));

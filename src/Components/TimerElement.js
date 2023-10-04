@@ -2,14 +2,11 @@ import React, { useEffect } from "react";
 import { startTimer } from "../Utils/timerChartUtils";
 
 import "./CSS/timerElement.css";
+import { useSudokuContext } from "../SudokuContext";
 
-export default function TimerElement({
-  timer,
-  setTimer,
-  timerPauseHandler,
-  HIDE_CLASS,
-  TIMER_KEY,
-}) {
+export default function TimerElement({ timerPauseHandler }) {
+  const { timer, setTimer, HIDE_CLASS, TIMER_KEY } = useSudokuContext();
+
   useEffect(() => {
     // Initialize timeObject
     const timerObjectJSON = localStorage.getItem(TIMER_KEY);

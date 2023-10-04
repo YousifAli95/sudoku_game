@@ -51,7 +51,7 @@ export function generateSudokuMatrix(CELLS_PER_SUBGRID) {
     Array(CELLS_PER_SUBGRID).fill(null)
   );
 
-  // generate array with possible values to the fill the matrix (1-9)
+  // Generate array with possible values to the fill the matrix (1-9)
   const possibleValues = Array.from({ length: 9 }, (_, index) => index + 1);
 
   const PROBABILITY_TO_FILL_A_CELL = currentDifficultyMode;

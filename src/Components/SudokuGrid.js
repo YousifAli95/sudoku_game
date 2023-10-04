@@ -7,27 +7,31 @@ import {
 } from ".././Utils/sudokuUtils";
 
 import "./CSS/sudokuGrid.css";
+import { useSudokuContext } from "../SudokuContext";
 
 const EDITED_SUDOKU_MATRIX_KEY = "editedSudokuMatrix";
 const ORIGINAL_SUDOKU_MATRIX_KEY = "originalSudokuMatrix";
 const TIME_RESULT_KEY = "timeResult";
 
 export default function SudokuGrid({
-  gridData,
-  setGridData,
-  rawGridData,
-  setRawGridData,
-  inputRefs,
   SUBGRIDS_PER_AXIS,
   CELLS_PER_SUBGRID,
-  setOpenModals,
-  timer,
   setTimeResultArray,
   timeResultArray,
-  TIMER_KEY,
-  setIsSudokuSolved,
-  isSudokuSolved,
 }) {
+  const {
+    gridData,
+    setGridData,
+    rawGridData,
+    setRawGridData,
+    inputRefs,
+    setOpenModals,
+    timer,
+    TIMER_KEY,
+    setIsSudokuSolved,
+    isSudokuSolved,
+  } = useSudokuContext();
+
   // Set the gridData by getting it from either local storage or generating a new sudoku grid
   useEffect(() => {
     const rawGridDataJSON = localStorage.getItem(ORIGINAL_SUDOKU_MATRIX_KEY);

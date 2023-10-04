@@ -1,6 +1,8 @@
+import { useSudokuContext } from "../SudokuContext";
 import "./CSS/pauseOverlay.css";
 
-export default function PauseOverlay({ timer, HIDE_CLASS, timerPauseHandler }) {
+export default function PauseOverlay({ timerPauseHandler }) {
+  const { timer, HIDE_CLASS } = useSudokuContext();
   return (
     <div
       onClick={timerPauseHandler}

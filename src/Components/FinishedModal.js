@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   getTimeResultCountDictionary,
   configureTimeChart,
@@ -7,12 +7,10 @@ import {
 } from "../Utils/timerChartUtils";
 
 import "./CSS/finishedModal.css";
+import { useSudokuContext } from "../SudokuContext";
 
-export default function FinishedModal({
-  openModals,
-  setOpenModals,
-  timeResultArray,
-}) {
+export default function FinishedModal({ timeResultArray }) {
+  const { openModals, setOpenModals } = useSudokuContext();
   const dialogRef = useRef();
   const confettiRef = useRef();
   const timeChartRef = useRef();
