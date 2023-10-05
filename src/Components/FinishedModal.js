@@ -54,7 +54,9 @@ export default function FinishedModal({ timeResultArray }) {
         </button>
       </div>
       <canvas ref={confettiRef} id="confetti-canvas"></canvas>
-      <h1 id="finished-h1">Great Job! You solved the Sudoku puzzle! :)</h1>
+      <h1 id="finished-h1">
+        Great Job! You solved the Sudoku puzzle! &#128512;
+      </h1>
       <canvas ref={timeChartRef} id="time-chart"></canvas>
     </dialog>
   );

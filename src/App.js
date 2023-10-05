@@ -7,6 +7,7 @@ import { resetBackgroundClasses } from "./Utils/sudokuUtils";
 import TimerElement from "./Components/TimerElement";
 import PauseOverlay from "./Components/PauseOverlay";
 import FinishedModal from "./Components/FinishedModal";
+import InformationModal from "./Components/InformationModal";
 import { useSudokuContext } from "./SudokuContext";
 
 const CELLS_PER_SUBGRID = 9;
@@ -25,9 +26,10 @@ export default function App() {
     setCopyOfGridData,
   } = useSudokuContext();
 
+  // Hides all grid values if the timer will be paused
   const timerPauseHandler = () => {
     if (!timer.isPaused) {
-      // Hides all grid values if the timer will be paused
+      // Create a an empty grid
       const emptyGrid = Array.from({ length: CELLS_PER_SUBGRID }, () =>
         Array(CELLS_PER_SUBGRID).fill(null)
       );
@@ -53,6 +55,7 @@ export default function App() {
       </header>
       <main>
         <FinishedModal timeResultArray={timeResultArray} />
+        <InformationModal />
         <TimerElement timerPauseHandler={timerPauseHandler} />
         <div id="pause-overlay-wrapper">
           <PauseOverlay timerPauseHandler={timerPauseHandler} />

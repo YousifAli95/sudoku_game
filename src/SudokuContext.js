@@ -15,6 +15,8 @@ export function SudokuContextProvider({ children }) {
   const [copyOfGridData, setCopyOfGridData] = useState([]);
   const [isSudokuSolved, setIsSudokuSolved] = useState(false);
   const [openModals, setOpenModals] = useState({ finishedModal: false });
+  const [newGameConfirmed, setNewGameConfirmed] = useState(false);
+  const [restartGameConfirmed, setrestartGameConfirmed] = useState(false);
   const inputRefs = useRef([]);
   const [timer, setTimer] = useState({
     minutes: 0,
@@ -39,6 +41,10 @@ export function SudokuContextProvider({ children }) {
     setTimer,
     HIDE_CLASS,
     TIMER_KEY,
+    newGameConfirmed,
+    setNewGameConfirmed,
+    restartGameConfirmed,
+    setrestartGameConfirmed,
   };
 
   return (

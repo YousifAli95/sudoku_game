@@ -20,6 +20,7 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
     TIMER_KEY,
     setIsSudokuSolved,
     isSudokuSolved,
+    openModals,
     setOpenModals,
   } = useSudokuContext();
 
@@ -31,6 +32,15 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
     if (sudokuSolver(copyOfRawGridData, CELLS_PER_SUBGRID)) {
       setGridData(JSON.parse(JSON.stringify(copyOfRawGridData)));
     }
+  };
+
+  const openInformationModal = (message, method) => {
+    // Setting the information model isOpen property to true in order to open the modal
+    // Sets a method delegate that the informationModal component can invoke
+    setOpenModals((prevstate) => ({
+      ...prevstate,
+      informationModal: { isOpen: true, text: message, method: method },
+    }));
   };
 
   const newGame = () => {
@@ -57,14 +67,35 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
   }
 
   return (
-    <div id="button-container">
-      <button onClick={runSudokuSolver} id="solve-btn">
+    <div className="button-container">
+      <button
+        id="solve-btn"
+        onClick={() => {
+          const message =
+            "Are you sure that you want to let the AI solve this puzzle for you? You should know that the AI is humble and will give you the credit for solving this puzzle.";
+          openInformationModal(message, runSudokuSolver);
+        }}
+      >
         {isSudokuSolved ? "See scoreboard" : "Solve with AI"}
       </button>
-      <button onClick={newGame} id="new-game-btn">
+      <button
+        id="new-game-btn"
+        onClick={() => {
+          const message =
+            "Are you sure that you want to start a new game. Doing so will give you a new sudoku puzzle and your progress with this sudoku puzzle will be lost.";
+          openInformationModal(message, newGame);
+        }}
+      >
         New Game
       </button>
-      <button onClick={restartGame} id="restart-btn">
+      <button
+        id="restart-btn"
+        onClick={() => {
+          const message =
+            "Are you sure that you want to restart? Doing so will give remove your progress with this sudoku puzzleand your timer will be reset";
+          openInformationModal(message, restartGame);
+        }}
+      >
         Restart
       </button>
     </div>
