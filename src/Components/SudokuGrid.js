@@ -25,17 +25,17 @@ export default function SudokuGrid({
     rawGridData,
     setRawGridData,
     inputRefs,
-    setOpenModals,
+    setInformationModal,
     timer,
     TIMER_KEY,
-    setIsSudokuSolved,
     isSudokuSolved,
+    modalMode,
   } = useSudokuContext();
 
   // Set the gridData by getting it from either local storage or generating a new sudoku grid
   useEffect(() => {
     const rawGridDataJSON = localStorage.getItem(ORIGINAL_SUDOKU_MATRIX_KEY);
-    if (rawGridDataJSON) {
+    if (rawGridDataJSON && rawGridDataJSON !== "[]") {
       setRawGridData(JSON.parse(rawGridDataJSON));
 
       const gridDataJSON = localStorage.getItem(EDITED_SUDOKU_MATRIX_KEY);
@@ -68,10 +68,11 @@ export default function SudokuGrid({
       localStorage.removeItem(ORIGINAL_SUDOKU_MATRIX_KEY);
       localStorage.removeItem(TIMER_KEY);
 
-      setIsSudokuSolved(true);
-
-      // Open finished modal when sudoku puzzle is solved
-      setOpenModals((prevState) => ({ ...prevState, finishedModal: true }));
+      // Open scoreboard modal when sudoku puzzle is solved
+      setInformationModal(() => ({
+        isOpen: true,
+        modalMode: modalMode.scoreboard,
+      }));
 
       // Adds this time result in the time result array
       setTimeResultArray((prevState) => [...prevState, timer.minutes]);

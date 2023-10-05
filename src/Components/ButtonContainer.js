@@ -20,13 +20,12 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
     TIMER_KEY,
     setIsSudokuSolved,
     isSudokuSolved,
-    openModals,
-    setOpenModals,
+    setInformationModal,
+    modalMode,
   } = useSudokuContext();
 
   const runSudokuSolver = () => {
-    if (isSudokuSolved)
-      setOpenModals((prevstate) => ({ ...prevstate, finishedModal: true }));
+    setTimer((prevState) => ({ ...prevState, isPaused: false }));
     clearInterval(timer.intervalId);
     const copyOfRawGridData = JSON.parse(JSON.stringify(rawGridData));
     if (sudokuSolver(copyOfRawGridData, CELLS_PER_SUBGRID)) {
@@ -35,12 +34,23 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
   };
 
   const openInformationModal = (message, method) => {
-    // Setting the information model isOpen property to true in order to open the modal
-    // Sets a method delegate that the informationModal component can invoke
-    setOpenModals((prevstate) => ({
-      ...prevstate,
-      informationModal: { isOpen: true, text: message, method: method },
-    }));
+    // If the puzzle is already solved and the method is runSudokuSolver, show the score modal
+    if (isSudokuSolved && method === runSudokuSolver) {
+      setInformationModal(() => ({
+        modalMode: modalMode.scoreboard,
+        isOpen: true,
+      }));
+      // Sets the information model isOpen property to true in order to open the modal
+      // Sets a message that the informationModal can show
+      // Sets a method delegate that the informationModal component can invoke
+    } else {
+      setInformationModal(() => ({
+        modalMode: modalMode.information,
+        isOpen: true,
+        text: message,
+        method: method,
+      }));
+    }
   };
 
   const newGame = () => {
@@ -92,7 +102,7 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
         id="restart-btn"
         onClick={() => {
           const message =
-            "Are you sure that you want to restart? Doing so will give remove your progress with this sudoku puzzleand your timer will be reset";
+            "Are you sure that you want to restart? Doing so will give remove your progress with this sudoku puzzle and your timer will be reset";
           openInformationModal(message, restartGame);
         }}
       >

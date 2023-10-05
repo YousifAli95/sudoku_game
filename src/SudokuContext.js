@@ -8,13 +8,15 @@ export function useSudokuContext() {
 }
 const TIMER_KEY = "sudokuTimer";
 const HIDE_CLASS = "hide";
-
+const modalMode = { scoreboard: "scoreboard", information: "information" };
 export function SudokuContextProvider({ children }) {
   const [gridData, setGridData] = useState([]);
   const [rawGridData, setRawGridData] = useState([]);
   const [copyOfGridData, setCopyOfGridData] = useState([]);
   const [isSudokuSolved, setIsSudokuSolved] = useState(false);
-  const [openModals, setOpenModals] = useState({ finishedModal: false });
+  const [informationModal, setInformationModal] = useState({
+    finishedModal: false,
+  });
   const [newGameConfirmed, setNewGameConfirmed] = useState(false);
   const [restartGameConfirmed, setrestartGameConfirmed] = useState(false);
   const inputRefs = useRef([]);
@@ -34,8 +36,8 @@ export function SudokuContextProvider({ children }) {
     setCopyOfGridData,
     isSudokuSolved,
     setIsSudokuSolved,
-    openModals,
-    setOpenModals,
+    informationModal,
+    setInformationModal,
     inputRefs,
     timer,
     setTimer,
@@ -45,6 +47,7 @@ export function SudokuContextProvider({ children }) {
     setNewGameConfirmed,
     restartGameConfirmed,
     setrestartGameConfirmed,
+    modalMode,
   };
 
   return (

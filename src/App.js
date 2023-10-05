@@ -6,7 +6,6 @@ import ButtonContainer from "./Components/ButtonContainer";
 import { resetBackgroundClasses } from "./Utils/sudokuUtils";
 import TimerElement from "./Components/TimerElement";
 import PauseOverlay from "./Components/PauseOverlay";
-import FinishedModal from "./Components/FinishedModal";
 import InformationModal from "./Components/InformationModal";
 import { useSudokuContext } from "./SudokuContext";
 
@@ -54,8 +53,7 @@ export default function App() {
         <a href="/">Yousifs Sudoku Game</a>
       </header>
       <main>
-        <FinishedModal timeResultArray={timeResultArray} />
-        <InformationModal />
+        <InformationModal timeResultArray={timeResultArray} />
         <TimerElement timerPauseHandler={timerPauseHandler} />
         <div id="pause-overlay-wrapper">
           <PauseOverlay timerPauseHandler={timerPauseHandler} />

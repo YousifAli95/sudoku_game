@@ -1,3 +1,31 @@
+.modal {
+    max-width: 60rem;
+    width: 80%;
+    position: relative;
+    padding: 0;
+    text-align: center;
+    padding: 10px;
+    outline: 2px solid black;
+}
+
+.modal-close-btn-wrapper {
+    display: flex;
+}
+
+.modal-close-btn {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: gray;
+    margin: 10px 0 0 auto;
+    border: none;
+    background-color: rgb(0, 0, 0, 0);
+}
+
+dialog::backdrop {
+    background-color: rgb(0, 0, 0, 0.75);
+}
+
 #information-modal-btn-container{
 justify-content: center;
 gap: 20px;
@@ -5,4 +33,17 @@ gap: 20px;
 
 #information-p{
     font-size: 1.5rem;
+}
+
+#confetti-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+#finished-h1 {
+    text-align: center;
+    margin-top: 5px;
+    padding: 0 10px;
 }

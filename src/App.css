@@ -55,33 +55,6 @@ main {
   display: none;
 }
 
-.modal {
-  max-width: 60rem;
-  width: 80%;
-  position: relative;
-  padding: 0;
-  text-align: center;
-  padding: 10px;
-}
-
-.modal-close-btn-wrapper {
-  display: flex;
-}
-
-.modal-close-btn {
-  float: right;
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: gray;
-  margin: 10px 0 0 auto;
-  border: none;
-  background-color: rgb(0, 0, 0, 0);
-}
-
-dialog::backdrop {
-  background-color: rgb(0, 0, 0, 0.75);
-}
-
 @media screen and (max-width: 560px) {
   :root {
     --input-box-size: 4.5rem;
