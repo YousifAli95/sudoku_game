@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/sudoku_game/static/css/main.6873cc1f.css",
-    "main.js": "/sudoku_game/static/js/main.6bf6f9bc.js",
+    "main.css": "/sudoku_game/static/css/main.38829718.css",
+    "main.js": "/sudoku_game/static/js/main.828f3c2c.js",
     "index.html": "/sudoku_game/index.html",
-    "main.6873cc1f.css.map": "/sudoku_game/static/css/main.6873cc1f.css.map",
-    "main.6bf6f9bc.js.map": "/sudoku_game/static/js/main.6bf6f9bc.js.map"
+    "main.38829718.css.map": "/sudoku_game/static/css/main.38829718.css.map",
+    "main.828f3c2c.js.map": "/sudoku_game/static/js/main.828f3c2c.js.map"
   },
   "entrypoints": [
-    "static/css/main.6873cc1f.css",
-    "static/js/main.6bf6f9bc.js"
+    "static/css/main.38829718.css",
+    "static/js/main.828f3c2c.js"
   ]
 }
