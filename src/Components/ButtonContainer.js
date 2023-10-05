@@ -102,7 +102,7 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
         id="restart-btn"
         onClick={() => {
           const message =
-            "Are you sure that you want to restart? Doing so will give remove your progress with this sudoku puzzle and your timer will be reset";
+            "Are you sure that you want to restart? Doing so will remove your progress with this sudoku puzzle and your timer will be reset";
           openInformationModal(message, restartGame);
         }}
       >
