@@ -29,23 +29,21 @@ export default function TimerElement({ timerPauseHandler }) {
   }, []);
 
   return (
-    <div className="above-grid-container">
-      <div
-        onClick={timerPauseHandler}
-        id="timer-wrapper"
-        className="timer-wrapper"
-      >
-        <span id="timer" className="timer">
-          {timer.minutes}:{timer.seconds.toString().padStart(2, "0")}
-        </span>
-        <div className="timer-pause">
-          <div
-            className={`icon icon-pause ${timer.isPaused ? HIDE_CLASS : ""}`}
-          ></div>
-          <div
-            className={`icon icon-play ${timer.isPaused ? "" : HIDE_CLASS}`}
-          ></div>
-        </div>
+    <div
+      onClick={timerPauseHandler}
+      id="timer-wrapper"
+      className="timer-wrapper"
+    >
+      <span id="timer" className="timer">
+        {timer.minutes}:{timer.seconds.toString().padStart(2, "0")}
+      </span>
+      <div className="timer-pause">
+        <div
+          className={`icon icon-pause ${timer.isPaused ? HIDE_CLASS : ""}`}
+        ></div>
+        <div
+          className={`icon icon-play ${timer.isPaused ? "" : HIDE_CLASS}`}
+        ></div>
       </div>
     </div>
   );

@@ -9,8 +9,15 @@ export function useSudokuContext() {
 const TIMER_KEY = "sudokuTimer";
 const HIDE_CLASS = "hide";
 const modalMode = { scoreboard: "scoreboard", information: "information" };
+const DIFFICULTY_KEY = "sudokuDifficulty";
+const difficultyModes = { EASY: 0.58, MEDIUM: 0.47, HARD: 0.38 };
+
 export function SudokuContextProvider({ children }) {
   const [gridData, setGridData] = useState([]);
+  const [difficultyMode, setDifficultyMode] = useState(difficultyModes.EASY);
+  const [newDifficultyMode, setNewDifficultyMode] = useState(
+    difficultyModes.EASY
+  );
   const [rawGridData, setRawGridData] = useState([]);
   const [copyOfGridData, setCopyOfGridData] = useState([]);
   const [isSudokuSolved, setIsSudokuSolved] = useState(false);
@@ -48,6 +55,12 @@ export function SudokuContextProvider({ children }) {
     restartGameConfirmed,
     setrestartGameConfirmed,
     modalMode,
+    difficultyMode,
+    setDifficultyMode,
+    DIFFICULTY_KEY,
+    difficultyModes,
+    newDifficultyMode,
+    setNewDifficultyMode,
   };
 
   return (

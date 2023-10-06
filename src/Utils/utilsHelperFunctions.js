@@ -6,6 +6,11 @@ export function shuffleArray(array) {
   }
 }
 
+// Generate a random integer between min (inclusive) and max (inclusive)
+export function generateRandomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // Function to count non-null values in the grid
 export function countNonEmptyValuesinMatrix(matrix) {
   let count = 0;

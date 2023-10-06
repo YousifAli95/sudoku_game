@@ -35,11 +35,19 @@
         width: 12rem;
         font-size: 1.3rem;
     }
+
+    .difficulty-select {
+        font-size: 1.3rem;
+    }
 }
 
 @media screen and (max-width: 430px) {
     .button-container button {
         width: 9.5rem;
+        font-size: 1rem;
+    }
+
+    .difficulty-select {
         font-size: 1rem;
     }
 }

@@ -30,6 +30,7 @@ export default function SudokuGrid({
     TIMER_KEY,
     isSudokuSolved,
     modalMode,
+    difficultyMode,
   } = useSudokuContext();
 
   // Set the gridData by getting it from either local storage or generating a new sudoku grid
@@ -45,7 +46,10 @@ export default function SudokuGrid({
 
       setGridData(gridData);
     } else {
-      const initialData = generateSudokuMatrix(CELLS_PER_SUBGRID);
+      const initialData = generateSudokuMatrix(
+        CELLS_PER_SUBGRID,
+        difficultyMode
+      );
       setGridData(initialData);
       setRawGridData(JSON.parse(JSON.stringify(initialData)));
     }
@@ -201,6 +205,7 @@ export default function SudokuGrid({
             rowClass = "subgrid-first-row";
           else if (rowIndex % SUBGRIDS_PER_AXIS === 2)
             rowClass = "subgrid-last-row";
+
           return (
             <input
               key={`${rowIndex}, ${colIndex}`}

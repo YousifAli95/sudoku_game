@@ -1,5 +1,5 @@
 // App.js
-import Reac, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./App.css";
 import SudokuGrid from "./Components/SudokuGrid";
 import ButtonContainer from "./Components/ButtonContainer";
@@ -8,13 +8,12 @@ import TimerElement from "./Components/TimerElement";
 import PauseOverlay from "./Components/PauseOverlay";
 import InformationModal from "./Components/InformationModal";
 import { useSudokuContext } from "./SudokuContext";
+import DifficultySelector from "./Components/DifficultySelector";
 
 const CELLS_PER_SUBGRID = 9;
 const SUBGRIDS_PER_AXIS = Math.floor(Math.sqrt(CELLS_PER_SUBGRID));
 
 export default function App() {
-  const [timeResultArray, setTimeResultArray] = useState([]);
-
   const {
     timer,
     setTimer,
@@ -24,6 +23,9 @@ export default function App() {
     copyOfGridData,
     setCopyOfGridData,
   } = useSudokuContext();
+
+  const [timeResultArray, setTimeResultArray] = useState([]);
+  const newGameButtonRef = useRef();
 
   // Hides all grid values if the timer will be paused
   const timerPauseHandler = () => {
@@ -54,7 +56,13 @@ export default function App() {
       </header>
       <main>
         <InformationModal timeResultArray={timeResultArray} />
-        <TimerElement timerPauseHandler={timerPauseHandler} />
+        <div className="above-grid-container">
+          <DifficultySelector newGameButtonRef={newGameButtonRef} />
+          <TimerElement
+            timerPauseHandler={timerPauseHandler}
+            newGameButtonRef={newGameButtonRef}
+          />
+        </div>
         <div id="pause-overlay-wrapper">
           <PauseOverlay timerPauseHandler={timerPauseHandler} />
           <SudokuGrid
@@ -64,7 +72,10 @@ export default function App() {
             timeResultArray={timeResultArray}
           />
         </div>
-        <ButtonContainer CELLS_PER_SUBGRID={CELLS_PER_SUBGRID} />
+        <ButtonContainer
+          CELLS_PER_SUBGRID={CELLS_PER_SUBGRID}
+          newGameButtonRef={newGameButtonRef}
+        />
       </main>
     </>
   );

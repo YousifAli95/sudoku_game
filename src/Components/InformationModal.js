@@ -15,7 +15,11 @@ export default function InformationModal({ timeResultArray }) {
     isSudokuSolved,
     setIsSudokuSolved,
     modalMode,
+    difficultyModes,
+    newDifficultyMode,
+    setNewDifficultyMode,
   } = useSudokuContext();
+
   const dialogRef = useRef();
   const confettiRef = useRef();
   const timeChartRef = useRef();
@@ -67,32 +71,51 @@ export default function InformationModal({ timeResultArray }) {
 
   return (
     <dialog ref={dialogRef} className="modal">
-      <div className="modal-close-btn-wrapper">
-        <button className="modal-close-btn" onClick={closeModal}>
-          x
-        </button>
+      <div id="modal-wrapper">
+        <div className="modal-close-btn-wrapper">
+          <button className="modal-close-btn" onClick={closeModal}>
+            x
+          </button>
+        </div>
+        {informationModal.modalMode === modalMode.information && (
+          <>
+            <p id="information-p">{informationModal?.text}</p>
+            <div id="select-button-container">
+              {informationModal.showDifficulty && (
+                <>
+                  <label id="difficultyLabel">Difficulty</label>
+                  <select
+                    className="difficulty-select"
+                    id="difficulty-select-modal"
+                    onChange={(e) => setNewDifficultyMode(e.target.value)}
+                    defaultValue={newDifficultyMode}
+                  >
+                    <option value={difficultyModes.EASY}>Easy</option>
+                    <option value={difficultyModes.MEDIUM}>Medium</option>
+                    <option value={difficultyModes.HARD}>Hard</option>
+                  </select>
+                </>
+              )}
+              <div
+                id="information-modal-btn-container"
+                className="button-container"
+              >
+                <button onClick={runModalMethod}>Yes</button>
+                <button onClick={closeModal}>No</button>
+              </div>
+            </div>
+          </>
+        )}
+        {informationModal.modalMode === modalMode.scoreboard && (
+          <>
+            <canvas ref={confettiRef} id="confetti-canvas"></canvas>
+            <h1 id="finished-h1">
+              Great Job! You solved the Sudoku puzzle! &#128512;
+            </h1>
+            <canvas ref={timeChartRef} id="time-chart"></canvas>
+          </>
+        )}
       </div>
-      {informationModal.modalMode === modalMode.information && (
-        <>
-          <p id="information-p">{informationModal?.text}</p>
-          <div
-            id="information-modal-btn-container"
-            className="button-container"
-          >
-            <button onClick={runModalMethod}>Yes</button>
-            <button onClick={closeModal}>No</button>
-          </div>
-        </>
-      )}
-      {informationModal.modalMode === modalMode.scoreboard && (
-        <>
-          <canvas ref={confettiRef} id="confetti-canvas"></canvas>
-          <h1 id="finished-h1">
-            Great Job! You solved the Sudoku puzzle! &#128512;
-          </h1>
-          <canvas ref={timeChartRef} id="time-chart"></canvas>
-        </>
-      )}
     </dialog>
   );
 }

@@ -9,7 +9,10 @@ import { startTimer } from "../Utils/timerChartUtils";
 import "./CSS/buttonContainer.css";
 import { useSudokuContext } from "../SudokuContext";
 
-export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
+export default function ButtonContainer({
+  CELLS_PER_SUBGRID,
+  newGameButtonRef,
+}) {
   const {
     rawGridData,
     setGridData,
@@ -22,6 +25,8 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
     isSudokuSolved,
     setInformationModal,
     modalMode,
+    setDifficultyMode,
+    setNewDifficultyMode,
   } = useSudokuContext();
 
   const runSudokuSolver = () => {
@@ -33,7 +38,7 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
     }
   };
 
-  const openInformationModal = (message, method) => {
+  const openInformationModal = (message, method, showDifficulty) => {
     // If the puzzle is already solved and the method is runSudokuSolver, show the score modal
     if (isSudokuSolved && method === runSudokuSolver) {
       setInformationModal(() => ({
@@ -49,6 +54,7 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
         isOpen: true,
         text: message,
         method: method,
+        showDifficulty: showDifficulty ?? false,
       }));
     }
   };
@@ -56,10 +62,17 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
   const newGame = () => {
     restartTimer();
     setIsSudokuSolved(false);
-    const newGrid = generateSudokuMatrix(CELLS_PER_SUBGRID);
-    setRawGridData(newGrid);
-    setGridData(JSON.parse(JSON.stringify(newGrid)));
-    resetBackgroundClasses(inputRefs);
+    setNewDifficultyMode((newDifficultyMode) => {
+      setDifficultyMode(newDifficultyMode);
+      const newGrid = generateSudokuMatrix(
+        CELLS_PER_SUBGRID,
+        newDifficultyMode
+      );
+      setRawGridData(newGrid);
+      setGridData(JSON.parse(JSON.stringify(newGrid)));
+      resetBackgroundClasses(inputRefs);
+      return newDifficultyMode;
+    });
   };
 
   const restartGame = () => {
@@ -90,10 +103,12 @@ export default function ButtonContainer({ CELLS_PER_SUBGRID }) {
       </button>
       <button
         id="new-game-btn"
+        ref={newGameButtonRef}
         onClick={() => {
+          const showDifficulty = true;
           const message =
-            "Are you sure that you want to start a new game. Doing so will give you a new sudoku puzzle and your progress with this sudoku puzzle will be lost.";
-          openInformationModal(message, newGame);
+            "Are you sure that you want to start a new game? Doing so will give you a new sudoku puzzle and your progress with this sudoku puzzle will be lost.";
+          openInformationModal(message, newGame, showDifficulty);
         }}
       >
         New Game

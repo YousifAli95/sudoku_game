@@ -1,6 +1,7 @@
 import {
   shuffleArray,
   countNonEmptyValuesinMatrix,
+  generateRandomInteger,
 } from "./utilsHelperFunctions";
 
 const LIGHT_BLUE_CLASS = "light-blue-background";
@@ -43,9 +44,7 @@ export function isValid(matrix, row, column, number, CELLS_PER_SUBGRID) {
   return { isValid: isValid, errorCoordinates };
 }
 
-export function generateSudokuMatrix(CELLS_PER_SUBGRID) {
-  const currentDifficultyMode = 0.5;
-
+export function generateSudokuMatrix(CELLS_PER_SUBGRID, difficultyMode) {
   // Generate a CELLS_PER_SUBGRID x CELLS_PER_SUBGRID matrix with only null values.
   const matrix = Array.from({ length: CELLS_PER_SUBGRID }, () =>
     Array(CELLS_PER_SUBGRID).fill(null)
@@ -54,37 +53,42 @@ export function generateSudokuMatrix(CELLS_PER_SUBGRID) {
   // Generate array with possible values to the fill the matrix (1-9)
   const possibleValues = Array.from({ length: 9 }, (_, index) => index + 1);
 
-  const PROBABILITY_TO_FILL_A_CELL = currentDifficultyMode;
+  const totalNumberOfCells = CELLS_PER_SUBGRID * CELLS_PER_SUBGRID;
+  const finalNonEmptyvalues = Math.ceil(difficultyMode * totalNumberOfCells);
 
+  //Randomly shuffles the array
+  shuffleArray(possibleValues);
+  for (let i = 0; i < CELLS_PER_SUBGRID; i++) {
+    const row = generateRandomInteger(0, 8);
+    const column = generateRandomInteger(0, 8);
+    if (matrix[row][column]) continue;
+    matrix[row][column] = possibleValues[i];
+  }
+
+  // Solves the matrix
+  sudokuSolver(matrix, CELLS_PER_SUBGRID);
+
+  // Saves all the coordinates of the matrix cells in an array
+  const cellArray = [];
   for (let i = 0; i < CELLS_PER_SUBGRID; i++) {
     for (let j = 0; j < CELLS_PER_SUBGRID; j++) {
-      const emptyValues = countNonEmptyValuesinMatrix(matrix);
-      const maxNonEmptyvalues =
-        PROBABILITY_TO_FILL_A_CELL * CELLS_PER_SUBGRID * CELLS_PER_SUBGRID;
-
-      if (emptyValues >= maxNonEmptyvalues) {
-        return matrix;
-      }
-
-      if (Math.random() >= currentDifficultyMode) continue;
-
-      shuffleArray(possibleValues);
-      for (let index = 0; index < possibleValues.length; index++) {
-        const candidate = possibleValues[index];
-        const result = isValid(matrix, i, j, candidate, CELLS_PER_SUBGRID);
-        if (result.isValid) {
-          matrix[i][j] = candidate;
-          // Work with a copy of the matrix instead of the matrix itself
-          const copiedMatrix = JSON.parse(JSON.stringify(matrix));
-          const [isSolved] = sudokuSolver(copiedMatrix, CELLS_PER_SUBGRID);
-          if (isSolved) break;
-        }
-
-        matrix[i][j] = null;
-      }
+      cellArray.push({ row: i, column: j });
     }
   }
 
+  // Sets X amount of cells as null in the solved matrix
+  const numberOfCellsToRemove = totalNumberOfCells - finalNonEmptyvalues;
+  for (let i = 0; i < numberOfCellsToRemove; i++) {
+    // Generate a random index
+    const randomIndex = generateRandomInteger(0, cellArray.length - 1);
+    const cell = cellArray[randomIndex];
+    // Sets a random cell to null
+    matrix[cell.row][cell.column] = null;
+    // Removes this cell from cellArray
+    cellArray.splice(randomIndex, 1);
+  }
+
+  console.log("nonEmptyvalues: ", countNonEmptyValuesinMatrix(matrix));
   return matrix;
 }
 
