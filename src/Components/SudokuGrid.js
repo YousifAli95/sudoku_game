@@ -92,6 +92,7 @@ export default function SudokuGrid({
   }, [timeResultArray]);
 
   useEffect(() => {
+    // Save the raw matrix in local storage when changes to it has been made
     if (rawGridData)
       localStorage.setItem(
         ORIGINAL_SUDOKU_MATRIX_KEY,

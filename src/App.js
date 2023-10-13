@@ -52,7 +52,7 @@ export default function App() {
   return (
     <>
       <header>
-        <a href="/">Yousifs Sudoku Game</a>
+        <a href="/">Yousif's Sudoku Game</a>
       </header>
       <main>
         <InformationModal timeResultArray={timeResultArray} />
